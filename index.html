@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PurpleGlass AI Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background"></div>
+  <main class="app-shell" role="main">
+    <header class="app-header">
+      <div class="logo">💬</div>
+      <div>
+        <h1>PurpleGlass</h1>
+        <p class="tagline">Your luminous conversational companion</p>
+      </div>
+    </header>
+    <section class="chat-window" aria-live="polite">
+      <div class="message assistant">
+        <div class="avatar" aria-hidden="true">🤖</div>
+        <div class="bubble">
+          <h2>Welcome to PurpleGlass!</h2>
+          <p>Ask me anything and I&apos;ll craft a shimmering reply.</p>
+        </div>
+      </div>
+    </section>
+    <form class="composer" aria-label="Send a message">
+      <label class="sr-only" for="prompt">Message</label>
+      <textarea id="prompt" name="prompt" rows="2" placeholder="Start typing..." required></textarea>
+      <button type="submit" class="send">Send</button>
+    </form>
+  </main>
+  <template id="message-template">
+    <div class="message">
+      <div class="avatar" aria-hidden="true"></div>
+      <div class="bubble"></div>
+    </div>
+  </template>
+  <script src="app.js" defer></script>
+</body>
+</html>
