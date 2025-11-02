@@ -9,14 +9,76 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body data-theme="glow">
   <div class="background"></div>
   <main class="app-shell" role="main">
     <header class="app-header">
-      <div class="logo">💬</div>
-      <div>
-        <h1>PurpleGlass</h1>
-        <p class="tagline">Your luminous conversational companion</p>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">💬</div>
+        <div>
+          <h1>PurpleGlass</h1>
+          <p class="tagline">Your luminous conversational companion</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="user-pill" aria-live="polite">
+          <span class="user-greeting">Signed in as</span>
+          <strong class="user-name">Guest</strong>
+        </div>
+        <button
+          type="button"
+          class="settings-toggle"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls="settings-panel"
+        >
+          <span class="icon" aria-hidden="true">⚙️</span>
+          <span class="label">Settings</span>
+        </button>
+        <section
+          class="settings-panel"
+          id="settings-panel"
+          role="dialog"
+          aria-label="Application settings"
+        >
+          <header class="settings-header">
+            <h2>Settings</h2>
+            <p>Personalise how PurpleGlass looks and feels.</p>
+          </header>
+          <form class="settings-form" novalidate>
+            <fieldset class="setting-group">
+              <legend>Theme</legend>
+              <label class="option">
+                <input type="radio" name="theme" value="glow" checked />
+                <span>
+                  <strong>Twilight Glow</strong>
+                  <small>Default luminous gradient.</small>
+                </span>
+              </label>
+              <label class="option">
+                <input type="radio" name="theme" value="midnight" />
+                <span>
+                  <strong>Midnight Veil</strong>
+                  <small>Deep blues with higher contrast.</small>
+                </span>
+              </label>
+            </fieldset>
+            <fieldset class="setting-group">
+              <legend>Layout</legend>
+              <label class="switch">
+                <input type="checkbox" id="compact-mode" />
+                <span class="switch-control" aria-hidden="true"></span>
+                <span class="switch-label">
+                  <strong>Compact bubbles</strong>
+                  <small>Reduce message padding for more history.</small>
+                </span>
+              </label>
+            </fieldset>
+            <div class="setting-actions">
+              <button type="button" class="logout" id="logout-button">Log out</button>
+            </div>
+          </form>
+        </section>
       </div>
     </header>
     <section class="chat-window" aria-live="polite">
@@ -40,6 +102,25 @@
       <div class="bubble"></div>
     </div>
   </template>
+  <div class="auth-overlay" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <div class="auth-card">
+      <h2 id="login-title">Welcome back</h2>
+      <p class="auth-subtitle">Sign in to start a new sparkling conversation.</p>
+      <form id="login-form">
+        <label for="display-name">Display name</label>
+        <input
+          id="display-name"
+          name="display-name"
+          type="text"
+          autocomplete="name"
+          placeholder="e.g. Aurora"
+          required
+          minlength="2"
+        />
+        <button type="submit" class="auth-submit">Enter</button>
+      </form>
+    </div>
+  </div>
   <script src="app.js" defer></script>
 </body>
 </html>

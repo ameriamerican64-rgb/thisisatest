@@ -1,19 +1,48 @@
 :root {
   color-scheme: dark;
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --bg-gradient: radial-gradient(circle at 20% 20%, rgba(144, 80, 255, 0.7), transparent 55%),
+  --gradient-primary: radial-gradient(circle at 20% 20%, rgba(144, 80, 255, 0.7), transparent 55%),
     radial-gradient(circle at 80% 10%, rgba(255, 80, 205, 0.6), transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(90, 50, 200, 0.65), transparent 45%),
     radial-gradient(circle at 15% 85%, rgba(70, 30, 160, 0.7), transparent 45%);
-  --glass-bg: rgba(20, 10, 45, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --color-bg: #0a0218;
+  --color-surface: rgba(21, 10, 45, 0.62);
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --surface-highlight: rgba(255, 255, 255, 0.2);
   --shadow-color: rgba(15, 10, 40, 0.5);
   --accent: #c084fc;
   --accent-strong: #b15cff;
   --text-primary: #f4f1ff;
-  --text-secondary: rgba(230, 220, 255, 0.8);
+  --text-secondary: rgba(230, 220, 255, 0.76);
   --assistant-bg: rgba(144, 80, 255, 0.18);
   --user-bg: rgba(255, 255, 255, 0.08);
+  --divider: rgba(255, 255, 255, 0.06);
+  --badge-bg: rgba(255, 255, 255, 0.08);
+  --badge-border: rgba(255, 255, 255, 0.22);
+  --overlay-bg: rgba(7, 3, 18, 0.7);
+  --input-bg: rgba(0, 0, 0, 0.25);
+}
+
+body[data-theme="midnight"] {
+  --gradient-primary: radial-gradient(circle at 20% 10%, rgba(60, 120, 255, 0.55), transparent 55%),
+    radial-gradient(circle at 75% 15%, rgba(90, 70, 230, 0.65), transparent 52%),
+    radial-gradient(circle at 80% 75%, rgba(0, 90, 180, 0.55), transparent 50%),
+    radial-gradient(circle at 15% 85%, rgba(0, 40, 120, 0.6), transparent 45%);
+  --color-bg: #030714;
+  --color-surface: rgba(10, 18, 45, 0.68);
+  --surface-border: rgba(100, 130, 255, 0.18);
+  --surface-highlight: rgba(105, 150, 255, 0.28);
+  --accent: #7dd3fc;
+  --accent-strong: #38bdf8;
+  --text-primary: #e7f1ff;
+  --text-secondary: rgba(207, 219, 255, 0.75);
+  --assistant-bg: rgba(67, 56, 202, 0.24);
+  --user-bg: rgba(15, 23, 42, 0.55);
+  --divider: rgba(88, 116, 196, 0.35);
+  --badge-bg: rgba(24, 36, 86, 0.8);
+  --badge-border: rgba(98, 132, 230, 0.45);
+  --overlay-bg: rgba(1, 6, 18, 0.78);
+  --input-bg: rgba(4, 10, 26, 0.7);
 }
 
 * {
@@ -29,7 +58,7 @@ body {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: #0b0215;
+  background: var(--color-bg);
   color: var(--text-primary);
   overflow: hidden;
 }
@@ -37,8 +66,8 @@ body {
 .background {
   position: fixed;
   inset: 0;
-  background: var(--bg-gradient);
-  filter: saturate(130%);
+  background: var(--gradient-primary);
+  filter: saturate(135%);
   z-index: -2;
 }
 
@@ -50,18 +79,25 @@ body {
   height: min(90vh, 720px);
   padding: clamp(1.5rem, 3vw, 2rem);
   border-radius: 28px;
-  border: 1px solid var(--glass-border);
-  background: var(--glass-bg);
-  backdrop-filter: blur(24px) saturate(160%);
-  box-shadow: 0 50px 140px -60px var(--shadow-color), inset 0 0 0.5px rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--surface-border);
+  background: var(--color-surface);
+  backdrop-filter: blur(28px) saturate(160%);
+  box-shadow: 0 50px 140px -60px var(--shadow-color), inset 0 0 1px var(--surface-highlight);
 }
 
 .app-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: space-between;
+  gap: 1.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--divider);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .logo {
@@ -88,6 +124,232 @@ h1 {
   font-size: 0.95rem;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.user-pill {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.65rem 1rem;
+  border-radius: 14px;
+  background: var(--badge-bg);
+  border: 1px solid var(--badge-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  min-width: 160px;
+}
+
+.user-pill strong {
+  font-size: 0.95rem;
+}
+
+.user-greeting {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.settings-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-toggle:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 16px 40px -20px rgba(0, 0, 0, 0.6);
+}
+
+.settings-toggle:focus-visible {
+  outline: 3px solid rgba(192, 132, 252, 0.45);
+  outline-offset: 2px;
+}
+
+.settings-panel {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  right: 0;
+  width: min(320px, 80vw);
+  padding: 1.5rem;
+  border-radius: 18px;
+  border: 1px solid var(--surface-border);
+  background: rgba(10, 4, 26, 0.92);
+  box-shadow: 0 28px 80px -40px rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 3;
+}
+
+body[data-theme="midnight"] .settings-panel {
+  background: rgba(4, 8, 24, 0.94);
+}
+
+.settings-panel.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.settings-header {
+  margin-bottom: 1rem;
+}
+
+.settings-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.settings-header p {
+  margin: 0.3rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.settings-form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.setting-group {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.setting-group legend {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+.option strong {
+  font-size: 0.95rem;
+}
+
+.option small {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.option input {
+  width: 1rem;
+  height: 1rem;
+}
+
+.option:has(input:checked) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 0 25px -12px var(--accent);
+}
+
+.switch {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  cursor: pointer;
+}
+
+.switch input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.switch-control {
+  width: 46px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  position: relative;
+  transition: background 0.25s ease;
+}
+
+.switch-control::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.25s ease;
+}
+
+.switch input:checked + .switch-control {
+  background: var(--accent);
+}
+
+.switch input:checked + .switch-control::after {
+  transform: translateX(18px);
+}
+
+.switch-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.switch-label small {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.setting-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logout {
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border 0.2s ease, background 0.2s ease;
+}
+
+.logout:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .chat-window {
   position: relative;
   display: flex;
@@ -98,6 +360,20 @@ h1 {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(200, 180, 255, 0.4) transparent;
+}
+
+.chat-window::before {
+  content: "";
+  position: sticky;
+  top: -1.5rem;
+  height: 1.5rem;
+  background: linear-gradient(180deg, rgba(8, 5, 20, 0.65), rgba(8, 5, 20, 0));
+  pointer-events: none;
+  z-index: 1;
+}
+
+body[data-theme="midnight"] .chat-window::before {
+  background: linear-gradient(180deg, rgba(1, 6, 20, 0.85), rgba(1, 6, 20, 0));
 }
 
 .chat-window::-webkit-scrollbar {
@@ -192,7 +468,7 @@ h1 {
   gap: 0.75rem;
   align-items: center;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--divider);
 }
 
 textarea {
@@ -200,7 +476,7 @@ textarea {
   width: 100%;
   padding: 1rem 1.2rem;
   font: inherit;
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--input-bg);
   color: var(--text-primary);
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -212,6 +488,11 @@ textarea:focus {
   outline: none;
   border-color: rgba(192, 132, 252, 0.9);
   box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.25);
+}
+
+body[data-theme="midnight"] textarea:focus {
+  border-color: rgba(125, 211, 252, 0.9);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25);
 }
 
 .send {
@@ -234,6 +515,12 @@ textarea:focus {
 
 .send:active {
   transform: translateY(1px);
+}
+
+textarea:disabled,
+.send:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .sr-only {
@@ -270,6 +557,117 @@ textarea:focus {
   }
 }
 
+body.compact .message {
+  gap: 0.6rem;
+}
+
+body.compact .bubble {
+  padding: 0.75rem 0.9rem;
+  border-radius: 16px;
+  max-width: min(80ch, 78%);
+}
+
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--overlay-bg);
+  backdrop-filter: blur(24px) saturate(130%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 10;
+}
+
+.auth-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.auth-card {
+  width: min(420px, 90vw);
+  padding: clamp(2rem, 4vw, 2.5rem);
+  border-radius: 24px;
+  border: 1px solid var(--surface-border);
+  background: rgba(10, 4, 26, 0.92);
+  box-shadow: 0 60px 140px -40px rgba(0, 0, 0, 0.8);
+  display: grid;
+  gap: 1.25rem;
+}
+
+body[data-theme="midnight"] .auth-card {
+  background: rgba(2, 8, 24, 0.92);
+}
+
+.auth-card h2 {
+  margin: 0;
+  font-size: 1.45rem;
+}
+
+.auth-subtitle {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+#login-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+#login-form label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+#login-form input {
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(12, 5, 30, 0.55);
+  color: var(--text-primary);
+  font: inherit;
+}
+
+#login-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(192, 132, 252, 0.25);
+}
+
+body[data-theme="midnight"] #login-form input {
+  background: rgba(2, 10, 30, 0.7);
+}
+
+.auth-submit {
+  padding: 0.95rem 1.5rem;
+  border-radius: 14px;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #0d0218;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.7);
+}
+
+.auth-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 34px 80px -28px rgba(0, 0, 0, 0.8);
+}
+
+.auth-submit:active {
+  transform: translateY(1px);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
 @media (max-width: 720px) {
   body {
     padding: 1rem;
@@ -282,6 +680,24 @@ textarea:focus {
     min-height: 100vh;
     padding: 1.25rem;
     border-radius: 18px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  .header-actions {
+    justify-content: space-between;
+  }
+
+  .settings-panel {
+    position: fixed;
+    inset: auto 1.5rem 1.5rem;
+    width: auto;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
   }
 
   .chat-window {
